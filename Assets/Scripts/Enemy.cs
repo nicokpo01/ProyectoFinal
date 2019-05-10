@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class enemy : MonoBehaviour {
+public class Enemy : MonoBehaviour {
 
     public int Healt;
     public float speed;
@@ -21,9 +21,9 @@ public class enemy : MonoBehaviour {
         transform.Translate(Vector2.left * speed * Time.deltaTime);
     }
 
-    public void RecibirDaño(int Cantidad)
+    public void TakeDamage(int Healt)
     {
         Instantiate(EfectoHit, transform.position, Quaternion.identity);
-        Healt -= Cantidad;
+        this.Healt -= Healt;
     }
 }

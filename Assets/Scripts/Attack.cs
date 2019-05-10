@@ -26,7 +26,7 @@ public class Attack : MonoBehaviour {
                 Instantiate(efecto, posAtacc.position, Quaternion.identity);
                 for (int i = 0 ; i < Enemigos.Length; i++)
                 {
-                    Enemigos[i].GetComponent<enemy>().RecibirDaño(daño);
+                    Enemigos[i].GetComponent<Enemy>().TakeDamage(daño);
                     
                 }
             }

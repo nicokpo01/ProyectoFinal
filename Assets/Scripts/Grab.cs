@@ -13,13 +13,26 @@ public class Grab : MonoBehaviour {
     {
         if (Input.GetKey(KeyCode.C))
         {
-            Collider2D[] Objetos = Physics2D.OverlapCircleAll(posAtacc.position, attacRange, QueObjeto);
-            Instantiate(efecto, posAtacc.position, Quaternion.identity);
-            Random rnd = new Random();
-            int largo = Objetos.Length;
-            var i = Random.Range(0, Objetos.Length);
-           
+            Collider2D[] Weapons = Physics2D.OverlapCircleAll(posAtacc.position, attacRange, QueObjeto);
+            int largo = Weapons.Length;
+            var i = Random.Range(0, Weapons.Length);
+            Weapon Item = Weapons[i].GetComponent<Weapon>();
+            Item.IsGrabbed = true;
+            Item.weaponslot = posAtacc;
         }
+            /*
+         if (Input.GetKey(KeyCode.X))
+            {
+                Recovery = TiempoInicio;
+                Collider2D[] Enemigos = Physics2D.OverlapCircleAll(posAtacc.position, attacRange, QueEnemigo);
+                Instantiate(efecto, posAtacc.position, Quaternion.identity);
+                for (int i = 0 ; i < Enemigos.Length; i++)
+                {
+                    Enemigos[i].GetComponent<Enemy>().TakeDamage(daño);
+                    
+                }
+            }    
+         */         
     }
 
     void OnDrawGizmosSelected()
