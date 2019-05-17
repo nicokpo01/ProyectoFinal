@@ -2,42 +2,40 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Grab : MonoBehaviour {
+public class Grab : MonoBehaviour
+{
 
-    public Transform posAtacc;
-    public LayerMask QueObjeto;
-    public float attacRange;
-    public int daño;
-    public GameObject efecto;
+    public Transform PosSlot;
+    public float GrabRange;
+
     void FixedUpdate()
     {
         if (Input.GetKey(KeyCode.C))
         {
-            Collider2D[] Weapons = Physics2D.OverlapCircleAll(posAtacc.position, attacRange, QueObjeto);
-            int largo = Weapons.Length;
-            var i = Random.Range(0, Weapons.Length);
-            Weapon Item = Weapons[i].GetComponent<Weapon>();
-            Item.IsGrabbed = true;
-            Item.weaponslot = posAtacc;
-        }
-            /*
-         if (Input.GetKey(KeyCode.X))
+            RaycastHit2D hitInfoArriba = Physics2D.Raycast(PosSlot.position, PosSlot.right, GrabRange);
+            RaycastHit2D hitInfoMedio = Physics2D.Raycast(PosSlot.position, PosSlot.right, GrabRange);
+            RaycastHit2D hitInfoAbajo = Physics2D.Raycast(PosSlot.position, PosSlot.right, GrabRange);
+            if (hitInfoMedio)
             {
-                Recovery = TiempoInicio;
-                Collider2D[] Enemigos = Physics2D.OverlapCircleAll(posAtacc.position, attacRange, QueEnemigo);
-                Instantiate(efecto, posAtacc.position, Quaternion.identity);
-                for (int i = 0 ; i < Enemigos.Length; i++)
+                Debug.Log(hitInfoMedio.transform.name);
+                Weapon weapon = hitInfoMedio.transform.GetComponent<Weapon>();
+                if (weapon != null)
                 {
-                    Enemigos[i].GetComponent<Enemy>().TakeDamage(daño);
-                    
+                    Debug.Log("Naisu");
                 }
-            }    
-         */         
-    }
+            }
+            else
+            {
+                if (hitInfoArriba)
+                {
 
-    void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(posAtacc.position, attacRange);
+                }
+                else if (hitInfoAbajo)
+                {
+
+                }
+
+            }
+        }
     }
 }
