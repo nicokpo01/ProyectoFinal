@@ -10,7 +10,7 @@ public class CharacterController2D : MonoBehaviour
 	[SerializeField] private LayerMask m_WhatIsGround;							
 	[SerializeField] private Transform m_GroundCheck;							
 	[SerializeField] private Transform m_CeilingCheck;						
-	[SerializeField] private Collider2D m_CrouchDisableCollider;				
+	[SerializeField] private Collider2D m_CrouchDisableCollider;
 
 	const float k_GroundedRadius = .2f; 
 	private bool m_Grounded;           
@@ -104,11 +104,11 @@ public class CharacterController2D : MonoBehaviour
 			if (move > 0 && !m_FacingRight)
 			{
 				Flip();
-			}
+            }
 			else if (move < 0 && m_FacingRight)
 			{
 				Flip();
-			}
+            }
 		}
         if (m_Grounded && jump)
         {

@@ -14,13 +14,22 @@ public class Weapon : MonoBehaviour
     public GameObject impactEffect;
     public LineRenderer lineRenderer;
     public Transform weaponslot;
-    public bool IsGrabbed = true;
-    // Update is called once per frame
+    public bool IsGrabbed = false;
+    private bool Facing = true;
+
+    private Rigidbody2D Gravity;
+
+    private void Awake()
+    {
+        Gravity = GetComponent<Rigidbody2D>();
+    }
 
     void FixedUpdate()
     {
         if (IsGrabbed)
         {
+            transform.rotation = new Quaternion(0,0,0,0);
+            Gravity.gravityScale = 0;
             Vector3 Pos = weaponslot.position;
             transform.position = Pos;
             if (Recovery <= 0)
@@ -37,12 +46,33 @@ public class Weapon : MonoBehaviour
             }
         }
         else {
+            Gravity.gravityScale = 2.01f;
             Recovery = 0;
         }
 
         //Temp it shouldd
 
 
+    }
+
+    public void Flip()
+    {
+        Facing = !Facing;
+        Vector3 theScale = transform.localScale;
+        theScale.x *= -1;
+        transform.localScale = theScale;
+    }
+
+    public IEnumerator FinalThrow(float ForceRight, float ForceUp, float UpTime)
+    {
+        Gravity.velocity = new Vector2(ForceRight, ForceUp);
+        yield return new WaitForSeconds(UpTime);
+        Gravity.velocity = new Vector2(0, 0);
+    }
+
+    public void Throw(float ForceRight, float ForceUp, float UpTime)
+    {
+        StartCoroutine(FinalThrow(ForceRight, ForceUp, UpTime));
     }
 
     IEnumerator Shoot()
