@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Weapon : MonoBehaviour
 {
+    public CharacterController2D control;
+    public int multiplier;
     private float Recovery;
     public float TiempoInicio;
     public float proyectileSpreadMax = 0;
@@ -28,6 +30,14 @@ public class Weapon : MonoBehaviour
     {
         if (IsGrabbed)
         {
+            if (control.m_FacingRight)
+            {
+                multiplier = 1;
+            }
+            else
+            {
+                multiplier = -1;
+            }
             transform.rotation = new Quaternion(0,0,0,0);
             Gravity.gravityScale = 0;
             Vector3 Pos = weaponslot.position;
@@ -77,9 +87,11 @@ public class Weapon : MonoBehaviour
 
     IEnumerator Shoot()
     {
-        RaycastHit2D hitInfo = Physics2D.Raycast(firePoint.position, firePoint.right, Range);
-        Instantiate(impactEffect, firePoint.position, Quaternion.identity);
+        float random = Random.Range(-proyectileSpreadMax, proyectileSpreadMax);
+        Vector2 direction = GetDirectionVector2D(random);
 
+        RaycastHit2D hitInfo = Physics2D.Raycast(firePoint.position, direction, multiplier * Range);
+        Instantiate(impactEffect, firePoint.position, Quaternion.identity);
         if (hitInfo)
         {
             Debug.Log(hitInfo.transform.name);
@@ -90,21 +102,16 @@ public class Weapon : MonoBehaviour
                 Debug.Log("Naisu");
             }
             
-            float i = Random.Range(-proyectileSpreadMax, proyectileSpreadMax);
-            Vector2 pos;
-            pos.x = hitInfo.point.x;
-            pos.y = hitInfo.point.y + i;
-            Instantiate(impactEffect, pos, Quaternion.identity);            
+            Instantiate(impactEffect, hitInfo.point, Quaternion.identity);            
             lineRenderer.SetPosition(0, firePoint.position);
             lineRenderer.SetPosition(1, hitInfo.point);
            
         }
         else
         {
-            float i = Random.Range(-proyectileSpreadMax, proyectileSpreadMax);
             Vector3 pos = firePoint.position;
-            pos.y = hitInfo.point.y + i;
-            pos.x += Range;
+            pos.y = hitInfo.point.y + random;
+            pos.x = hitInfo.point.x + multiplier * Range;
             lineRenderer.SetPosition(0, firePoint.position);
             lineRenderer.SetPosition(1, firePoint.position + pos);
         }
@@ -114,6 +121,11 @@ public class Weapon : MonoBehaviour
         yield return new WaitForSeconds(lifetime);
 
         lineRenderer.enabled = false;
+    }
+
+    public Vector2 GetDirectionVector2D(float angle)
+    {
+        return new Vector2(Mathf.Cos(angle * Mathf.Deg2Rad), Mathf.Sin(angle * Mathf.Deg2Rad)).normalized;
     }
 
 }

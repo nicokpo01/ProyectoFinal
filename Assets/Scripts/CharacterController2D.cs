@@ -12,11 +12,12 @@ public class CharacterController2D : MonoBehaviour
 	[SerializeField] private Transform m_CeilingCheck;						
 	[SerializeField] private Collider2D m_CrouchDisableCollider;
 
+    public Weapon weapon;
 	const float k_GroundedRadius = .2f; 
 	private bool m_Grounded;           
 	const float k_CeilingRadius = .2f; 
 	private Rigidbody2D m_Rigidbody2D;
-	private bool m_FacingRight = true;  
+	public bool m_FacingRight = true;  
 	private Vector3 m_Velocity = Vector3.zero;
 
 	[Header("Events")]
@@ -103,11 +104,19 @@ public class CharacterController2D : MonoBehaviour
 
 			if (move > 0 && !m_FacingRight)
 			{
+                if (weapon != null)
+                {
+                    weapon.Flip();
+                }
 				Flip();
             }
 			else if (move < 0 && m_FacingRight)
 			{
-				Flip();
+                if (weapon != null)
+                {
+                    weapon.Flip();
+                }
+                Flip();
             }
 		}
         if (m_Grounded && jump)
