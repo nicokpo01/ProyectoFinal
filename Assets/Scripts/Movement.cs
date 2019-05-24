@@ -100,6 +100,7 @@ public class Movement : MonoBehaviour
                             { Scale.x *= -1; }
                         }
 
+                        weapon.onStand = false;
                         weapon.transform.localScale = Scale;
                         weapon.control = control;
                         control.weapon = weapon;
@@ -128,7 +129,7 @@ public class Movement : MonoBehaviour
                             }
 
                             weapon.transform.localScale = Scale;
-
+                            weapon.onStand = false;
                             weapon.control = control;
                             control.weapon = weapon;
                             Grabbing = true;
@@ -158,6 +159,7 @@ public class Movement : MonoBehaviour
                             Grabbing = true;
                             weapon.IsGrabbed = true;
                             weapon.weaponslot = PosSlot;
+                            weapon.onStand = false;
                         }
                     }
                 }

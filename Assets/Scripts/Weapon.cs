@@ -5,18 +5,25 @@ using UnityEngine;
 public class Weapon : MonoBehaviour
 {
     public CharacterController2D control;
+    public int MaxAmmo;
+    public int Ammo;
     public int multiplier;
+    public int Range = 10;
+    public int damage = 40;
+
     private float Recovery;
     public float TiempoInicio;
     public float proyectileSpreadMax = 0;
     public float lifetime = 0.02f;
-    public int Range = 10;
+
+    
     public Transform firePoint;
-    public int damage = 40;
+    public Transform weaponslot;
     public GameObject impactEffect;
     public LineRenderer lineRenderer;
-    public Transform weaponslot;
+    
     public bool IsGrabbed = false;
+    public bool onStand = false;
     private bool Facing = true;
 
     private Rigidbody2D Gravity;
@@ -26,10 +33,23 @@ public class Weapon : MonoBehaviour
         Gravity = GetComponent<Rigidbody2D>();
     }
 
+    private void Start()
+    {
+        Ammo = MaxAmmo;
+    }
+    //
     void FixedUpdate()
     {
+        if (onStand)
+        {
+            transform.rotation = Quaternion.identity;
+            Gravity.gravityScale = 0;
+        }
+
         if (IsGrabbed)
         {
+            
+            onStand = false;
             if (control.m_FacingRight)
             {
                 multiplier = 1;
@@ -56,7 +76,11 @@ public class Weapon : MonoBehaviour
             }
         }
         else {
-            Gravity.gravityScale = 2.01f;
+            if (!onStand)
+            {
+                Gravity.gravityScale = 2.01f;
+            }
+            
             Recovery = 0;
         }
 
@@ -87,40 +111,49 @@ public class Weapon : MonoBehaviour
 
     IEnumerator Shoot()
     {
-        float random = Random.Range(-proyectileSpreadMax, proyectileSpreadMax);
-        Vector2 direction = GetDirectionVector2D(random);
-
-        RaycastHit2D hitInfo = Physics2D.Raycast(firePoint.position, direction, multiplier * Range);
-        Instantiate(impactEffect, firePoint.position, Quaternion.identity);
-        if (hitInfo)
+        if (Ammo > 0)
         {
-            Debug.Log(hitInfo.transform.name);
-            Enemy enemy = hitInfo.transform.GetComponent<Enemy>();
-            if (enemy != null)
+            Ammo--;
+            float random = Random.Range(-proyectileSpreadMax, proyectileSpreadMax);
+            Vector2 direction = GetDirectionVector2D(random);
+
+            RaycastHit2D hitInfo = Physics2D.Raycast(firePoint.position, direction, multiplier * Range);
+            Instantiate(impactEffect, firePoint.position, Quaternion.identity);
+            if (hitInfo)
             {
-                enemy.TakeDamage(damage);
-                Debug.Log("Naisu");
+                Debug.Log(hitInfo.transform.name);
+                Enemy enemy = hitInfo.transform.GetComponent<Enemy>();
+                if (enemy != null)
+                {
+                    enemy.TakeDamage(damage);
+                    Debug.Log("Naisu");
+                }
+
+                Instantiate(impactEffect, hitInfo.point, Quaternion.identity);
+                lineRenderer.SetPosition(0, firePoint.position);
+                lineRenderer.SetPosition(1, hitInfo.point);
+
             }
-            
-            Instantiate(impactEffect, hitInfo.point, Quaternion.identity);            
-            lineRenderer.SetPosition(0, firePoint.position);
-            lineRenderer.SetPosition(1, hitInfo.point);
-           
+            else
+            {
+                Vector3 pos = firePoint.position;
+                pos.y = hitInfo.point.y + random;
+                pos.x = hitInfo.point.x + multiplier * Range;
+                lineRenderer.SetPosition(0, firePoint.position);
+                lineRenderer.SetPosition(1, firePoint.position + pos);
+            }
+
+            lineRenderer.enabled = true;
+
+            yield return new WaitForSeconds(lifetime);
+
+            lineRenderer.enabled = false;
         }
         else
         {
-            Vector3 pos = firePoint.position;
-            pos.y = hitInfo.point.y + random;
-            pos.x = hitInfo.point.x + multiplier * Range;
-            lineRenderer.SetPosition(0, firePoint.position);
-            lineRenderer.SetPosition(1, firePoint.position + pos);
+            //Sin municion
+            Debug.Log("yikes");
         }
-
-        lineRenderer.enabled = true;
-
-        yield return new WaitForSeconds(lifetime);
-
-        lineRenderer.enabled = false;
     }
 
     public Vector2 GetDirectionVector2D(float angle)
