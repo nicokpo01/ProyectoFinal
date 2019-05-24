@@ -7,6 +7,7 @@ public class Movement : MonoBehaviour
 
     public Transform PosSlot;
     public float DistanceRayCast = 0.5f;
+    public float DistanceXRayCast = 0.95f;
     public float GrabRange;
     private bool Grabbing = false;
     public int multiplier;
@@ -77,12 +78,25 @@ public class Movement : MonoBehaviour
             {
                 Vector3 PosArriba = PosSlot.position;
                 PosArriba.y = PosSlot.position.y + DistanceRayCast;
+                PosArriba.x = PosSlot.position.x - DistanceXRayCast * multiplier;
                 Vector3 PosAbajo = PosSlot.position;
                 PosAbajo.y = PosSlot.position.y - DistanceRayCast;
+                PosAbajo.x = PosSlot.position.x - DistanceXRayCast * multiplier;
 
-                RaycastHit2D hitInfoArriba = Physics2D.Raycast(PosArriba, PosSlot.right * multiplier, GrabRange);
-                RaycastHit2D hitInfoMedio = Physics2D.Raycast(PosSlot.position, PosSlot.right * multiplier, GrabRange);
-                RaycastHit2D hitInfoAbajo = Physics2D.Raycast(PosAbajo, PosSlot.right * multiplier, GrabRange);
+                Vector3 posMedio = PosSlot.position;
+                posMedio.x = PosSlot.position.x - DistanceXRayCast * multiplier;
+
+                Vector3 posTestIni = PosSlot.position;
+                Vector3 posTestFin = PosSlot.position;
+                posTestIni.x -= DistanceXRayCast * multiplier;
+                posTestIni.y = PosSlot.position.y - DistanceRayCast;
+                posTestFin.x += (GrabRange - DistanceXRayCast) * multiplier;
+                posTestFin.y = PosSlot.position.y - DistanceRayCast;
+                Debug.DrawLine(posTestIni, posTestFin, Color.red, 0.5f);
+
+                RaycastHit2D hitInfoArriba = Physics2D.Raycast(PosArriba, PosSlot.right * multiplier, (GrabRange + DistanceXRayCast) * multiplier);
+                RaycastHit2D hitInfoMedio = Physics2D.Raycast(posMedio, PosSlot.right * multiplier, (GrabRange + DistanceXRayCast) * multiplier);
+                RaycastHit2D hitInfoAbajo = Physics2D.Raycast(PosAbajo, PosSlot.right * multiplier, (GrabRange + DistanceXRayCast) * multiplier);
                 if (hitInfoMedio)
                 {
                     Weapon weapon = hitInfoMedio.transform.GetComponent<Weapon>();
