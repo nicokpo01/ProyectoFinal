@@ -234,7 +234,9 @@ MonoBehaviour:
     m_Bits: 55
   m_GroundCheck: {fileID: 4606889234844610}
   m_CeilingCheck: {fileID: 4434936330968174}
-  m_CrouchDisableCollider: {fileID: 61854453403360328}
+  m_CrouchDisableCollider: {fileID: 0}
+  weapon: {fileID: 0}
+  m_FacingRight: 1
   OnLandEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -256,9 +258,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4dc9c31328059c84bb4a3cc3889bef10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  control: {fileID: 0}
+  MaskWeapon:
+    serializedVersion: 2
+    m_Bits: 0
+  TopTransform: {fileID: 0}
+  BottomTransform: {fileID: 0}
+  PosSlot: {fileID: 0}
+  multiplier: 0
+  Equip: {fileID: 0}
+  ForceThrowUp: 0.2
+  ForceThrowRight: 0.7
+  ThrowTime: 0.05
+  GrabRange: 0
   fallmultiplier: 2.5
   lowjumpmultiplier: 2
-  control: {fileID: 0}
   VelocidadMovimiento: 50
   MovimientoHorizontal: 0
 --- !u!114 &114425625421776778
