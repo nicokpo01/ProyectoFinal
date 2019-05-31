@@ -81,5 +81,69 @@ public class Grab : MonoBehaviour
             }
         }
     }
-    */
+  
+     * 
+     
+     
+     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+     
+     
+                /*
+                Vector3 PosIzquierda = TopTransform.position;
+                PosIzquierda.x -= DistanceRayCast;
+
+                Vector3 PosDerecha = PosSlot.position;
+                PosDerecha.x += DistanceRayCast;
+
+                
+
+                RaycastHit2D hitInfoIzq = Physics2D.Raycast(PosIzquierda, TopTransform.up, Mathf.Infinity, MaskWeapon);
+                RaycastHit2D hitInfoMedio = Physics2D.Raycast(TopTransform.position, TopTransform.up, Mathf.Infinity, MaskWeapon);
+                RaycastHit2D hitInfoDer = Physics2D.Raycast(PosDerecha, TopTransform.up, Mathf.Infinity,MaskWeapon);
+
+                if (hitInfoMedio.collider != null)
+                {
+                    Debug.Log("Collider ok");
+                    //Weapon weapon = hitInfoMedio.transform.GetComponent<Weapon>();
+                    Weapon weapon = hitInfoMedio.transform.gameObject.GetComponent<Weapon>();
+
+                    if (weapon != null)
+                    {
+                        Debug.Log("WEapon yeah");
+                        EquipWeapon(weapon);
+                    }
+                }
+                else
+                {
+                    if (hitInfoIzq)
+                    {
+                        Weapon weapon = hitInfoIzq.transform.GetComponent<Weapon>();
+                        if (weapon != null)
+                        {
+                            Debug.Log("PIPO");
+                            EquipWeapon(weapon);
+                        }
+                    }
+                    else if (hitInfoDer)
+                    {
+                        Weapon weapon = hitInfoDer.transform.GetComponent<Weapon>();
+                        if (weapon != null)
+                        {
+                            Debug.Log("PIPO");
+                            EquipWeapon(weapon);
+                        }
+                    }
+                }
+                */   
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
+     
 }

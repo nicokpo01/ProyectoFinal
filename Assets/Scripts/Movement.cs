@@ -4,29 +4,34 @@ using UnityEngine;
 
 public class Movement : MonoBehaviour
 {
+    public CharacterController2D control;
 
+    public LayerMask MaskWeapon;
+
+    public Transform TopTransform;
+    public Transform BottomTransform;
     public Transform PosSlot;
-    public float DistanceRayCast = 0.5f;
-    public float DistanceXRayCast = 0.95f;
-    public float GrabRange;
+    private Animator Anim;
+    Rigidbody2D rb;
+
     private bool Grabbing = false;
+    bool salto = false;
+
     public int multiplier;
+
+    //Testing
+    public Weapon Equip;
+    //Testing
+
     public float ForceThrowUp = 0.2f;
     public float ForceThrowRight = 0.7f;
     public float ThrowTime = 0.05f;
-
+    public float GrabRange;
     public float fallmultiplier = 2.5f;
     public float lowjumpmultiplier = 2f;
-
-    Rigidbody2D rb;
-
-    public CharacterController2D control;
-
-    private Animator Anim;
     public float VelocidadMovimiento;
     public float MovimientoHorizontal;
 
-    bool salto = false;
 
     private void Awake()
     {
@@ -46,12 +51,16 @@ public class Movement : MonoBehaviour
             salto = true;
             Anim.SetTrigger("Salto");
         }
-
-
     }
 
     private void FixedUpdate()
     {
+        if (Equip != null)
+        {
+            EquipWeapon(Equip);
+            Equip = null;
+        }
+
         if (control.m_FacingRight)
         {
             multiplier = 1;
@@ -63,6 +72,7 @@ public class Movement : MonoBehaviour
         control.Move(MovimientoHorizontal * Time.fixedDeltaTime, false, salto);
         salto = false;
 
+        
         if (rb.velocity.y < 0)
         {
             rb.velocity += Vector2.up * Physics2D.gravity.y * (fallmultiplier - 1) * Time.fixedDeltaTime;
@@ -71,116 +81,39 @@ public class Movement : MonoBehaviour
         {
             rb.velocity += Vector2.up * Physics2D.gravity.y * (lowjumpmultiplier - 1) * Time.fixedDeltaTime;
         }
+        
 
         if (Input.GetKeyDown(KeyCode.C))
         {
             if (Grabbing == false)
             {
-                Vector3 PosArriba = PosSlot.position;
-                PosArriba.y = PosSlot.position.y + DistanceRayCast;
-                PosArriba.x = PosSlot.position.x - DistanceXRayCast * multiplier;
-                Vector3 PosAbajo = PosSlot.position;
-                PosAbajo.y = PosSlot.position.y - DistanceRayCast;
-                PosAbajo.x = PosSlot.position.x - DistanceXRayCast * multiplier;
+                Weapon weapon;
+                weapon = null;
 
-                Vector3 posMedio = PosSlot.position;
-                posMedio.x = PosSlot.position.x - DistanceXRayCast * multiplier;
+                Collider2D[] weaponsTop = Physics2D.OverlapCircleAll(TopTransform.position, GrabRange, MaskWeapon);
+                Collider2D[] weaponsBot = Physics2D.OverlapCircleAll(BottomTransform.position, GrabRange, MaskWeapon);
 
-                Vector3 posTestIni = PosSlot.position;
-                Vector3 posTestFin = PosSlot.position;
-                posTestIni.x -= DistanceXRayCast * multiplier;
-                posTestIni.y = PosSlot.position.y - DistanceRayCast;
-                posTestFin.x += (GrabRange - DistanceXRayCast) * multiplier;
-                posTestFin.y = PosSlot.position.y - DistanceRayCast;
-                Debug.DrawLine(posTestIni, posTestFin, Color.red, 0.5f);
-
-                RaycastHit2D hitInfoArriba = Physics2D.Raycast(PosArriba, PosSlot.right * multiplier, (GrabRange + DistanceXRayCast) * multiplier);
-                RaycastHit2D hitInfoMedio = Physics2D.Raycast(posMedio, PosSlot.right * multiplier, (GrabRange + DistanceXRayCast) * multiplier);
-                RaycastHit2D hitInfoAbajo = Physics2D.Raycast(PosAbajo, PosSlot.right * multiplier, (GrabRange + DistanceXRayCast) * multiplier);
-                if (hitInfoMedio)
+                int i;
+                
+                if (weaponsBot.Length != 0)
                 {
-                    Weapon weapon = hitInfoMedio.transform.GetComponent<Weapon>();
-                    if (weapon != null)
-                    {
-                        Vector3 Scale = weapon.transform.localScale;
-                        if (control.m_FacingRight)
-                        {
-                            if (Mathf.Sign(weapon.transform.localScale.x) < 0)
-                            { Scale.x *= -1; }
-                        }
-                        else
-                        {
-                            if (Mathf.Sign(weapon.transform.localScale.x) > 0)
-                            { Scale.x *= -1; }
-                        }
-
-                        weapon.onStand = false;
-                        weapon.transform.localScale = Scale;
-                        weapon.control = control;
-                        control.weapon = weapon;
-                        Grabbing = true;
-                        weapon.IsGrabbed = true;
-                        weapon.weaponslot = PosSlot;
-                    }
+                    i = Random.Range(0, weaponsBot.Length);
+                    weapon = weaponsBot[i].GetComponent<Weapon>();
                 }
-                else
+                if (weaponsTop.Length != 0)
                 {
-                    if (hitInfoArriba)
-                    {
-                        Weapon weapon = hitInfoArriba.transform.GetComponent<Weapon>();
-                        if (weapon != null)
-                        {
-                            Vector3 Scale = weapon.transform.localScale;
-                            if (control.m_FacingRight)
-                            {
-                                if (Mathf.Sign(weapon.transform.localScale.x) < 0)
-                                { Scale.x *= -1; }
-                            }
-                            else
-                            {
-                                if (Mathf.Sign(weapon.transform.localScale.x) > 0)
-                                { Scale.x *= -1; }
-                            }
+                    i = Random.Range(0, weaponsTop.Length);
+                    weapon = weaponsTop[i].GetComponent<Weapon>();
+                }
 
-                            weapon.transform.localScale = Scale;
-                            weapon.onStand = false;
-                            weapon.control = control;
-                            control.weapon = weapon;
-                            Grabbing = true;
-                            weapon.IsGrabbed = true;
-                            weapon.weaponslot = PosSlot;
-                        }
-                    }
-                    else if (hitInfoAbajo)
-                    {
-                        Weapon weapon = hitInfoAbajo.transform.GetComponent<Weapon>();
-                        if (weapon != null)
-                        {
-                            Vector3 Scale = weapon.transform.localScale;
-                            if (control.m_FacingRight)
-                            {
-                                if (Mathf.Sign(weapon.transform.localScale.x) < 0)
-                                { Scale.x *= -1; }
-                            }
-                            else
-                            {
-                                if (Mathf.Sign(weapon.transform.localScale.x) > 0)
-                                { Scale.x *= -1; }
-                            }
-                            weapon.transform.localScale = Scale;
-                            weapon.control = control;
-                            control.weapon = weapon;
-                            Grabbing = true;
-                            weapon.IsGrabbed = true;
-                            weapon.weaponslot = PosSlot;
-                            weapon.onStand = false;
-                        }
-                    }
+                if (weapon != null)
+                {
+                    EquipWeapon(weapon);
                 }
 
             }
             else
-            {                
+            {
                 RaycastHit2D hitInfo = Physics2D.Raycast(PosSlot.position, PosSlot.right);
                 Weapon weapon = hitInfo.transform.GetComponent<Weapon>();
                 weapon.control = null;
@@ -191,4 +124,36 @@ public class Movement : MonoBehaviour
             }
         }
     }
+
+
+    public void EquipWeapon(Weapon weapon)
+    {
+        Vector3 Scale = weapon.transform.localScale;
+        if (control.m_FacingRight)
+        {
+            if (Mathf.Sign(weapon.transform.localScale.x) < 0)
+            { Scale.x *= -1; }
+        }
+        else
+        {
+            if (Mathf.Sign(weapon.transform.localScale.x) > 0)
+            { Scale.x *= -1; }
+        }
+
+        weapon.onStand = false;
+        weapon.transform.localScale = Scale;
+        weapon.control = control;
+        control.weapon = weapon;
+        Grabbing = true;
+        weapon.IsGrabbed = true;
+        weapon.weaponslot = PosSlot;
+    }
+
+    void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(TopTransform.position, GrabRange);
+        Gizmos.DrawWireSphere(BottomTransform.position, GrabRange);
+    }
 }
+

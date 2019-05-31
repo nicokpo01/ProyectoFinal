@@ -12,16 +12,23 @@ public class Weapon : MonoBehaviour
     public int damage = 40;
 
     private float Recovery;
+    private float LineRecovery;
     public float TiempoInicio;
     public float proyectileSpreadMax = 0;
+    
     public float lifetime = 0.02f;
-
+    public float multiplierLine = 1f;
     
     public Transform firePoint;
     public Transform weaponslot;
     public GameObject impactEffect;
     public LineRenderer lineRenderer;
-    
+
+    public float linerendererLength;
+    public float linerendererLengthEnd;
+
+    public bool wantlineeffect = false;
+    private bool equalLine;
     public bool IsGrabbed = false;
     public bool onStand = false;
     private bool Facing = true;
@@ -35,7 +42,17 @@ public class Weapon : MonoBehaviour
 
     private void Start()
     {
+        if (lifetime > TiempoInicio)
+        {
+            lifetime = TiempoInicio;
+        }
         Ammo = MaxAmmo;
+        linerendererLength = lineRenderer.startWidth;
+        linerendererLengthEnd = lineRenderer.endWidth;
+        if (linerendererLength == linerendererLengthEnd)
+        {
+            equalLine = true;
+        }
     }
     //
     void FixedUpdate()
@@ -60,19 +77,48 @@ public class Weapon : MonoBehaviour
             }
             transform.rotation = new Quaternion(0,0,0,0);
             Gravity.gravityScale = 0;
-            Vector3 Pos = weaponslot.position;
-            transform.position = Pos;
+            transform.position = weaponslot.position;
             if (Recovery <= 0)
             {
+                
                 if (Input.GetButtonDown("Fire1"))
                 {
+                    lineRenderer.startWidth = linerendererLength;
+                    lineRenderer.endWidth = linerendererLengthEnd;
+                    LineRecovery = lifetime;
+
                     Recovery = TiempoInicio;
                     StartCoroutine(Shoot());
                 }
             }
             else
-            {
+            {                
                 Recovery -= Time.deltaTime;
+            }
+            ///////////////////ahora line
+            
+            if (LineRecovery > 0)            
+            {
+                if (wantlineeffect)
+                {
+                    if (!equalLine)
+                    {
+                        if (lineRenderer.startWidth >= linerendererLengthEnd)
+                        {
+                            lineRenderer.startWidth -= linerendererLengthEnd * multiplierLine;
+                        }
+                    }
+                    else
+                    {
+                        if (lineRenderer.startWidth >= 0)
+                        {
+                            lineRenderer.startWidth -= 1 * multiplier;
+                            lineRenderer.endWidth -= 1 * multiplier;
+                        }
+                        
+                    }
+                }
+                LineRecovery -= Time.deltaTime;
             }
         }
         else {
@@ -145,7 +191,12 @@ public class Weapon : MonoBehaviour
 
             lineRenderer.enabled = true;
 
-            yield return new WaitForSeconds(lifetime);
+            float ftime = lifetime;
+            if (lifetime > TiempoInicio)
+            {
+                ftime = TiempoInicio;
+            }
+            yield return new WaitForSeconds(ftime);
 
             lineRenderer.enabled = false;
         }
