@@ -19,6 +19,8 @@ public class Movement : MonoBehaviour
 
     public int multiplier;
 
+    private Weapon last_weapon;
+
     //Testing
     public Weapon Equip;
     //Testing
@@ -32,6 +34,10 @@ public class Movement : MonoBehaviour
     public float VelocidadMovimiento;
     public float MovimientoHorizontal;
 
+    private string StrJump = "Jump";
+    private string StrHorizontal = "Horizontal";
+    private string StrGrab = "Grab/interact";
+
 
     private void Awake()
     {
@@ -40,21 +46,24 @@ public class Movement : MonoBehaviour
 
     void Start()
     {
+        if (gameObject.tag == "Player 2")
+        {
+            StrHorizontal += " 2";
+            StrJump += " 2";
+            StrGrab += " 2";
+        }
         Anim = GetComponent<Animator>();
     }
     // Update is called once per frame
     void Update()
     {
-        MovimientoHorizontal = Input.GetAxisRaw("Horizontal") * VelocidadMovimiento;
-        if (Input.GetButtonDown("Jump"))
+        MovimientoHorizontal = Input.GetAxisRaw(StrHorizontal) * VelocidadMovimiento;
+        if (Input.GetButtonDown(StrJump))
         {
             salto = true;
             Anim.SetTrigger("Salto");
         }
-    }
 
-    private void FixedUpdate()
-    {
         if (Equip != null)
         {
             EquipWeapon(Equip);
@@ -72,7 +81,7 @@ public class Movement : MonoBehaviour
         control.Move(MovimientoHorizontal * Time.fixedDeltaTime, false, salto);
         salto = false;
 
-        
+
         if (rb.velocity.y < 0)
         {
             rb.velocity += Vector2.up * Physics2D.gravity.y * (fallmultiplier - 1) * Time.fixedDeltaTime;
@@ -81,12 +90,13 @@ public class Movement : MonoBehaviour
         {
             rb.velocity += Vector2.up * Physics2D.gravity.y * (lowjumpmultiplier - 1) * Time.fixedDeltaTime;
         }
-        
 
-        if (Input.GetKeyDown(KeyCode.C))
+
+        if (Input.GetButtonDown(StrGrab))
         {
             if (Grabbing == false)
             {
+                last_weapon = null;
                 Weapon weapon;
                 weapon = null;
 
@@ -94,7 +104,7 @@ public class Movement : MonoBehaviour
                 Collider2D[] weaponsBot = Physics2D.OverlapCircleAll(BottomTransform.position, GrabRange, MaskWeapon);
 
                 int i;
-                
+
                 if (weaponsBot.Length != 0)
                 {
                     i = Random.Range(0, weaponsBot.Length);
@@ -114,13 +124,13 @@ public class Movement : MonoBehaviour
             }
             else
             {
-                RaycastHit2D hitInfo = Physics2D.Raycast(PosSlot.position, PosSlot.right);
-                Weapon weapon = hitInfo.transform.GetComponent<Weapon>();
-                weapon.control = null;
+                //RaycastHit2D hitInfo = Physics2D.Raycast(PosSlot.position, PosSlot.right);
+                //Weapon weapon = hitInfo.transform.GetComponent<Weapon>();
+                last_weapon.control = null;
                 control.weapon = null;
                 Grabbing = false;
-                weapon.IsGrabbed = false;
-                weapon.Throw(ForceThrowRight * multiplier, ForceThrowUp, ThrowTime);
+                last_weapon.IsGrabbed = false;
+                last_weapon.Throw(ForceThrowRight * multiplier, ForceThrowUp, ThrowTime);
             }
         }
     }
@@ -147,6 +157,8 @@ public class Movement : MonoBehaviour
         Grabbing = true;
         weapon.IsGrabbed = true;
         weapon.weaponslot = PosSlot;
+        weapon.tag = gameObject.tag;
+        last_weapon = weapon;
     }
 
     void OnDrawGizmosSelected()

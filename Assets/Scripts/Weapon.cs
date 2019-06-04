@@ -35,6 +35,9 @@ public class Weapon : MonoBehaviour
 
     private Rigidbody2D Gravity;
 
+    public string tag = "Player 1";
+    private string StrFire = "Fire";
+
     private void Awake()
     {
         Gravity = GetComponent<Rigidbody2D>();
@@ -42,6 +45,8 @@ public class Weapon : MonoBehaviour
 
     private void Start()
     {
+        
+
         if (lifetime > TiempoInicio)
         {
             lifetime = TiempoInicio;
@@ -55,8 +60,25 @@ public class Weapon : MonoBehaviour
         }
     }
     //
+    private void Update()
+    {
+        if (IsGrabbed)
+        {
+            transform.position = weaponslot.position;
+        }
+    }
+
     void FixedUpdate()
     {
+        if (tag == "Player 2")
+        {
+            StrFire = "Fire 2";
+        }
+        else
+        {
+            StrFire = "Fire";
+        }
+
         if (onStand)
         {
             transform.rotation = Quaternion.identity;
@@ -77,11 +99,11 @@ public class Weapon : MonoBehaviour
             }
             transform.rotation = new Quaternion(0,0,0,0);
             Gravity.gravityScale = 0;
-            transform.position = weaponslot.position;
+            
             if (Recovery <= 0)
             {
                 
-                if (Input.GetButtonDown("Fire1"))
+                if (Input.GetButtonDown(StrFire))
                 {
                     lineRenderer.startWidth = linerendererLength;
                     lineRenderer.endWidth = linerendererLengthEnd;

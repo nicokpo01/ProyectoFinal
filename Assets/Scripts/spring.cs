@@ -6,6 +6,8 @@ public class spring : MonoBehaviour
 {
 
     public float force = 2f;
+    public float MultiplierForObjects = 0.5f;
+
     private float uptime = 1f;
     private GameObject @object;
     // Use this for 
@@ -18,8 +20,21 @@ public class spring : MonoBehaviour
 
     public void Throw(float ForceUp, float UpTime)
     {
-        @object.GetComponent<Rigidbody2D>().velocity = new Vector2(0, ForceUp);
-
+        Weapon check = @object.GetComponent<Weapon>();
+        if (check != null)
+        {
+            Debug.Log("weapon");
+            if (!check.IsGrabbed)
+            {
+                Debug.Log("Is not grabbed");
+                @object.GetComponent<Rigidbody2D>().velocity = new Vector2(0, ForceUp * MultiplierForObjects);
+            }
+        }
+        else
+        {
+            @object.GetComponent<Rigidbody2D>().velocity = new Vector2(0, ForceUp);
+        }
+        
     }
 }
 
