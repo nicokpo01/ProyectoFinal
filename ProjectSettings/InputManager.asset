@@ -74,7 +74,7 @@ InputManager:
     descriptiveName: Jump
     descriptiveNegativeName: 
     negativeButton: 
-    positiveButton: g
+    positiveButton: w
     altNegativeButton: 
     altPositiveButton: 
     gravity: 1000
@@ -90,7 +90,7 @@ InputManager:
     descriptiveName: Jump
     descriptiveNegativeName: 
     negativeButton: 
-    positiveButton: 2
+    positiveButton: up
     altNegativeButton: 
     altPositiveButton: 
     gravity: 1000
@@ -122,7 +122,7 @@ InputManager:
     descriptiveName: Fire
     descriptiveNegativeName: 
     negativeButton: 
-    positiveButton: 1
+    positiveButton: m
     altNegativeButton: 
     altPositiveButton: 
     gravity: 1000
@@ -154,7 +154,7 @@ InputManager:
     descriptiveName: Grab/interact
     descriptiveNegativeName: 
     negativeButton: 
-    positiveButton: 3
+    positiveButton: .
     altNegativeButton: 
     altPositiveButton: 
     gravity: 1000

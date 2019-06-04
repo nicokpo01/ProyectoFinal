@@ -297,7 +297,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4228403223283164, guid: 06320e1182e2db7429302ce7d7786085, type: 2}
       propertyPath: m_LocalPosition.x
-      value: -2.2100015
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 4228403223283164, guid: 06320e1182e2db7429302ce7d7786085, type: 2}
       propertyPath: m_LocalPosition.y
@@ -351,6 +351,17 @@ Prefab:
     - target: {fileID: 1190556270236930, guid: 06320e1182e2db7429302ce7d7786085, type: 2}
       propertyPath: m_Name
       value: Character 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 212296830746020720, guid: 06320e1182e2db7429302ce7d7786085,
+        type: 2}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: d399622d99c617847b027c0478855658,
+        type: 3}
+    - target: {fileID: 212296830746020720, guid: 06320e1182e2db7429302ce7d7786085,
+        type: 2}
+      propertyPath: m_FlipX
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 06320e1182e2db7429302ce7d7786085, type: 2}
@@ -853,6 +864,9 @@ MonoBehaviour:
   Xmin: -30
   Ymax: 10
   Ymin: -10
+  DistanceLimit: 8
+  limit_between: 4
+  movementspeed: 1
 --- !u!1001 &825576843
 Prefab:
   m_ObjectHideFlags: 0
