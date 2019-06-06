@@ -25,6 +25,8 @@ public class Movement : MonoBehaviour
     public Weapon Equip;
     //Testing
 
+    public int Healt = 3;
+
     public float ForceThrowUp = 0.2f;
     public float ForceThrowRight = 0.7f;
     public float ThrowTime = 0.05f;
@@ -126,11 +128,7 @@ public class Movement : MonoBehaviour
             {
                 //RaycastHit2D hitInfo = Physics2D.Raycast(PosSlot.position, PosSlot.right);
                 //Weapon weapon = hitInfo.transform.GetComponent<Weapon>();
-                last_weapon.control = null;
-                control.weapon = null;
-                Grabbing = false;
-                last_weapon.IsGrabbed = false;
-                last_weapon.Throw(ForceThrowRight * multiplier, ForceThrowUp, ThrowTime);
+                DropWeapon(true);
             }
         }
     }
@@ -159,6 +157,39 @@ public class Movement : MonoBehaviour
         weapon.weaponslot = PosSlot;
         weapon.tag = gameObject.tag;
         last_weapon = weapon;
+    }
+
+    public void DropWeapon(bool withDrop)
+    {
+        if (last_weapon != null)
+        {
+            last_weapon.control = null;
+            control.weapon = null;
+            Grabbing = false;
+            last_weapon.IsGrabbed = false;
+            if (withDrop)
+            {
+                last_weapon.Throw(ForceThrowRight * multiplier, ForceThrowUp, ThrowTime);
+            }
+        }    
+    }
+
+    public void TakeDamage()
+    {
+     //   Instantiate(EfectoHit, transform.position, Quaternion.identity);
+        Healt -= Healt;
+        DropWeapon(false);
+        //DEATH
+        Destroy(gameObject);
+
+        if (Healt > 0)
+        {
+            //still
+        }
+        else
+        {
+            //Lose
+        }
     }
 
     void OnDrawGizmosSelected()

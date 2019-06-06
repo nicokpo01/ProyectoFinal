@@ -55,7 +55,7 @@ public class WeaponSpawn : MonoBehaviour
 
     public void Select()
     {
-        Weapon send = new Weapon();
+        Weapon send = null;
         int a = Random.Range(1, 7);
 
         if (a == 1 && Lenghts[0] != 0)

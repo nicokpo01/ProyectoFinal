@@ -24,6 +24,8 @@ public class Weapon : MonoBehaviour
     public GameObject impactEffect;
     public LineRenderer lineRenderer;
 
+    private LayerMask Whatissolid;
+
     public float linerendererLength;
     public float linerendererLengthEnd;
 
@@ -45,7 +47,7 @@ public class Weapon : MonoBehaviour
 
     private void Start()
     {
-        
+        Whatissolid = LayerMask.GetMask("Player", "Platform");
 
         if (lifetime > TiempoInicio)
         {
@@ -185,16 +187,15 @@ public class Weapon : MonoBehaviour
             float random = Random.Range(-proyectileSpreadMax, proyectileSpreadMax);
             Vector2 direction = GetDirectionVector2D(random);
 
-            RaycastHit2D hitInfo = Physics2D.Raycast(firePoint.position, direction, multiplier * Range);
+            RaycastHit2D hitInfo = Physics2D.Raycast(firePoint.position, direction, multiplier * Range, Whatissolid);
             Instantiate(impactEffect, firePoint.position, Quaternion.identity);
             if (hitInfo)
             {
                 Debug.Log(hitInfo.transform.name);
-                Enemy enemy = hitInfo.transform.GetComponent<Enemy>();
+                Movement enemy = hitInfo.transform.GetComponent<Movement>();
                 if (enemy != null)
                 {
-                    enemy.TakeDamage(damage);
-                    Debug.Log("Naisu");
+                    enemy.TakeDamage();
                 }
 
                 Instantiate(impactEffect, hitInfo.point, Quaternion.identity);
@@ -222,11 +223,10 @@ public class Weapon : MonoBehaviour
 
             lineRenderer.enabled = false;
         }
-        else
-        {
+        //else
+        //{
             //Sin municion
-            Debug.Log("yikes");
-        }
+        //}
     }
 
     public Vector2 GetDirectionVector2D(float angle)
