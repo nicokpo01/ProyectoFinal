@@ -21,18 +21,17 @@ public class Movement : MonoBehaviour
 
     private Weapon last_weapon;
 
-    //Testing
-    public Weapon Equip;
-    //Testing
-
     public int Healt = 3;
 
     public float ForceThrowUp = 0.2f;
     public float ForceThrowRight = 0.7f;
     public float ThrowTime = 0.05f;
+
     public float GrabRange;
-    public float fallmultiplier = 2.5f;
+
+    //public float fallmultiplier = 2.5f;
     public float lowjumpmultiplier = 2f;
+
     public float VelocidadMovimiento;
     public float MovimientoHorizontal;
 
@@ -66,12 +65,6 @@ public class Movement : MonoBehaviour
             Anim.SetTrigger("Salto");
         }
 
-        if (Equip != null)
-        {
-            EquipWeapon(Equip);
-            Equip = null;
-        }
-
         if (control.m_FacingRight)
         {
             multiplier = 1;
@@ -83,16 +76,16 @@ public class Movement : MonoBehaviour
         control.Move(MovimientoHorizontal * Time.fixedDeltaTime, false, salto);
         salto = false;
 
-
+        /*
         if (rb.velocity.y < 0)
         {
             rb.velocity += Vector2.up * Physics2D.gravity.y * (fallmultiplier - 1) * Time.fixedDeltaTime;
         }
         else if (rb.velocity.y > 0 && !Input.GetButton("Jump"))
-        {
-            rb.velocity += Vector2.up * Physics2D.gravity.y * (lowjumpmultiplier - 1) * Time.fixedDeltaTime;
-        }
-
+        {*/
+        rb.velocity += Vector2.up * Physics2D.gravity.y * (lowjumpmultiplier - 1) * Time.fixedDeltaTime;
+       // }
+        
 
         if (Input.GetButtonDown(StrGrab))
         {
@@ -126,8 +119,6 @@ public class Movement : MonoBehaviour
             }
             else
             {
-                //RaycastHit2D hitInfo = Physics2D.Raycast(PosSlot.position, PosSlot.right);
-                //Weapon weapon = hitInfo.transform.GetComponent<Weapon>();
                 DropWeapon(true);
             }
         }
@@ -155,7 +146,7 @@ public class Movement : MonoBehaviour
         Grabbing = true;
         weapon.IsGrabbed = true;
         weapon.weaponslot = PosSlot;
-        weapon.tag = gameObject.tag;
+        weapon.objectTag = gameObject.tag;
         last_weapon = weapon;
     }
 

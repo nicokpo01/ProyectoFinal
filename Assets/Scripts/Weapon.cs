@@ -15,7 +15,10 @@ public class Weapon : MonoBehaviour
     private float LineRecovery;
     public float TiempoInicio;
     public float proyectileSpreadMax = 0;
-    
+
+    public float timeforDespawn = 30;
+    private float recoverytimedespawn ;
+
     public float lifetime = 0.02f;
     public float multiplierLine = 1f;
     
@@ -37,7 +40,7 @@ public class Weapon : MonoBehaviour
 
     private Rigidbody2D Gravity;
 
-    public string tag = "Player 1";
+    public string objectTag = "Player 1";
     private string StrFire = "Fire";
 
     private void Awake()
@@ -47,6 +50,8 @@ public class Weapon : MonoBehaviour
 
     private void Start()
     {
+        recoverytimedespawn = timeforDespawn;
+
         Whatissolid = LayerMask.GetMask("Player", "Platform");
 
         if (lifetime > TiempoInicio)
@@ -72,7 +77,7 @@ public class Weapon : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (tag == "Player 2")
+        if (objectTag == "Player 2")
         {
             StrFire = "Fire 2";
         }
@@ -85,11 +90,12 @@ public class Weapon : MonoBehaviour
         {
             transform.rotation = Quaternion.identity;
             Gravity.gravityScale = 0;
+            recoverytimedespawn = timeforDespawn;
         }
 
         if (IsGrabbed)
         {
-            
+            recoverytimedespawn = timeforDespawn;
             onStand = false;
             if (control.m_FacingRight)
             {
@@ -145,13 +151,17 @@ public class Weapon : MonoBehaviour
                 LineRecovery -= Time.deltaTime;
             }
         }
-        else {
+        else {            
             if (!onStand)
             {
+                recoverytimedespawn -= Time.deltaTime;
                 Gravity.gravityScale = 2.01f;
-            }
-            
+            }            
             Recovery = 0;
+            if (recoverytimedespawn <= 0)
+            {
+                Destroy(gameObject);
+            }
         }
 
         //Temp it shouldd
@@ -191,7 +201,6 @@ public class Weapon : MonoBehaviour
             Instantiate(impactEffect, firePoint.position, Quaternion.identity);
             if (hitInfo)
             {
-                Debug.Log(hitInfo.transform.name);
                 Movement enemy = hitInfo.transform.GetComponent<Movement>();
                 if (enemy != null)
                 {

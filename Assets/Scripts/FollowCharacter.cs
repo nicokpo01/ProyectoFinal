@@ -4,17 +4,13 @@ using UnityEngine;
 
 public class FollowCharacter : MonoBehaviour
 {
-
-    public float Xmax;
-    public float Xmin;
-    public float Ymax;
-    public float Ymin;
-
     public Transform blankpoint;
     public float limit_between = 2f;
     public float limit_Max = 20f;
 
+    public float cutoff = 0;
     public float modifierZoom = 1;
+    public float ExtraModifierZoom = 1.5f;
 
     public float z;
 
@@ -28,6 +24,8 @@ public class FollowCharacter : MonoBehaviour
 
     private GameObject x1;
     private GameObject x2;
+
+    private bool allDead = false;
 
     Vector3 nextposition; 
 
@@ -52,32 +50,38 @@ public class FollowCharacter : MonoBehaviour
         {
             if (x2 == null)
             {
+                allDead = true;
                 Target = blankpoint;
                 Target_2 = blankpoint;               
             }
             else
             {
+                allDead = false;
                 Target = x2.transform;
             }
         }
         else
         {
+            allDead = false;
             Target = x1.transform;
         }
         if (x2 == null)
         {
             if (x1 == null)
             {
+                allDead = true;
                 Target = blankpoint;
                 Target_2 = blankpoint;
             }
             else
             {
+                allDead = false;
                 Target_2 = x1.transform;
             }
         }
         else
         {
+            allDead = false;
             Target_2 = x2.transform;
         }
 
@@ -88,24 +92,33 @@ public class FollowCharacter : MonoBehaviour
         Vector2 Xb = new Vector2(Target_2.position.x, 1);
         distance = Vector2.Distance(Xa, Xb);
         float extra = Time.deltaTime * modifierZoom;
+        float Moreextra = extra * ExtraModifierZoom;
 
-        if (distance < limit_between)
+        if(!allDead)
         {
-            //Cam.orthographicSize = limit_between;
-            Cam.orthographicSize = Mathf.Lerp(last, limit_between, extra);
-        }
-        else
-        {
-            if (distance > limit_Max)
+            if (distance < limit_between)
             {
-                Cam.orthographicSize = Mathf.Lerp(last, limit_Max, extra);
-                //Cam.orthographicSize = limit_Max;
+                //Cam.orthographicSize = limit_between;
+                Cam.orthographicSize = Mathf.Lerp(last, limit_between + cutoff, extra);
             }
             else
             {
-                //Cam.orthographicSize = Mathf.Lerp(last, distance + CutOff, extra);
-                Cam.orthographicSize = Mathf.Lerp(last, distance, extra);
-            }           
+                if (distance > limit_Max)
+                {
+                    Cam.orthographicSize = Mathf.Lerp(last, limit_Max + cutoff, extra);
+                    //Cam.orthographicSize = limit_Max;
+                }
+                else
+                {
+                    //Cam.orthographicSize = Mathf.Lerp(last, distance + CutOff, extra);
+                    Cam.orthographicSize = Mathf.Lerp(last, distance + cutoff, extra);
+                }
+            }
+        }
+        else
+        {
+            Cam.orthographicSize = Mathf.Lerp(last, limit_Max + cutoff, Moreextra);
+            allDead = true;
         }
     }
 }

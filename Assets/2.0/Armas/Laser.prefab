@@ -192,6 +192,7 @@ MonoBehaviour:
   damage: 11
   TiempoInicio: 1.2
   proyectileSpreadMax: 0
+  timeforDespawn: 15
   lifetime: 0.67
   multiplierLine: 0.05
   firePoint: {fileID: 4005725871679574}
@@ -203,6 +204,7 @@ MonoBehaviour:
   wantlineeffect: 1
   IsGrabbed: 0
   onStand: 0
+  objectTag: Player 1
 --- !u!120 &120248620802432936
 LineRenderer:
   m_ObjectHideFlags: 1

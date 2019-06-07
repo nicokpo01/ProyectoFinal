@@ -188,10 +188,11 @@ MonoBehaviour:
   MaxAmmo: 4
   Ammo: 0
   multiplier: 0
-  Range: 15
-  damage: 10
+  Range: 20
+  damage: 15
   TiempoInicio: 1
   proyectileSpreadMax: 0.03
+  timeforDespawn: 15
   lifetime: 0.02
   multiplierLine: 1
   firePoint: {fileID: 4665050289305384}
@@ -202,7 +203,8 @@ MonoBehaviour:
   linerendererLengthEnd: 0
   wantlineeffect: 0
   IsGrabbed: 0
-  onStand: 0
+  onStand: 1
+  objectTag: Player 1
 --- !u!120 &120726747242185820
 LineRenderer:
   m_ObjectHideFlags: 1

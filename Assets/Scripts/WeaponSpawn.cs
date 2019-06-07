@@ -11,6 +11,8 @@ public class WeaponSpawn : MonoBehaviour
     private Vector2 pos;
     private Weapon lastWeapon;
 
+    public float WeaponSize = 1;
+
     public float Distance;
     public float TimeForSpawns;
     public float Recovery;
@@ -83,6 +85,7 @@ public class WeaponSpawn : MonoBehaviour
         }
         if (send != null)
         {
+
             Spawn(send);
         }
     }
@@ -91,6 +94,9 @@ public class WeaponSpawn : MonoBehaviour
     {
         spawn.onStand = true;
         lastWeapon = Instantiate(spawn, pos, Quaternion.identity);
-
+        Vector3 scale = lastWeapon.transform.localScale;
+        scale.x = WeaponSize;
+        scale.y = WeaponSize;
+        lastWeapon.transform.localScale = scale;
     }
 }

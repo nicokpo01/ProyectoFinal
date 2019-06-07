@@ -122,7 +122,7 @@ InputManager:
     descriptiveName: Fire
     descriptiveNegativeName: 
     negativeButton: 
-    positiveButton: m
+    positiveButton: ','
     altNegativeButton: 
     altPositiveButton: 
     gravity: 1000
@@ -138,7 +138,7 @@ InputManager:
     descriptiveName: Grab/interact
     descriptiveNegativeName: 
     negativeButton: 
-    positiveButton: h
+    positiveButton: g
     altNegativeButton: 
     altPositiveButton: 
     gravity: 1000
