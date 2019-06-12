@@ -8,6 +8,8 @@ public class Movement : MonoBehaviour
 
     public LayerMask MaskWeapon;
 
+    public GameObject dummy;
+
     public Transform TopTransform;
     public Transform BottomTransform;
     public Transform PosSlot;
@@ -23,6 +25,7 @@ public class Movement : MonoBehaviour
 
     public int Healt = 3;
 
+    public float tilt;
     public float ForceThrowUp = 0.2f;
     public float ForceThrowRight = 0.7f;
     public float ThrowTime = 0.05f;
@@ -171,6 +174,11 @@ public class Movement : MonoBehaviour
         Healt -= Healt;
         DropWeapon(false);
         //DEATH
+        GameObject @object = Instantiate(dummy, transform.position, Quaternion.Euler(0,0,tilt * multiplier));
+        @object.GetComponent<Rigidbody2D>().velocity = rb.velocity;
+        @object.GetComponent<Rigidbody2D>().AddForce(rb.velocity);
+        
+
         Destroy(gameObject);
 
         if (Healt > 0)
@@ -181,6 +189,26 @@ public class Movement : MonoBehaviour
         {
             //Lose
         }
+    }
+
+    public GameObject TakeDamage(bool yes)
+    {
+        //   Instantiate(EfectoHit, transform.position, Quaternion.identity);
+        Healt -= Healt;
+        DropWeapon(false);
+        //DEATH
+        GameObject retorno = Instantiate(dummy, transform.position, Quaternion.Euler(0,0,tilt * multiplier));
+        Destroy(gameObject);
+
+        if (Healt > 0)
+        {
+            //still
+        }
+        else
+        {
+            //Lose
+        }
+        return retorno;
     }
 
     void OnDrawGizmosSelected()

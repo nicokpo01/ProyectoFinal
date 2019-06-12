@@ -155,8 +155,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1054737677828690}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 16, y: 1.2, z: 0}
-  m_LocalScale: {x: 1.0000639, y: 1.0000639, z: 1.0000639}
+  m_LocalPosition: {x: 21.95, y: 12.4, z: 12}
+  m_LocalScale: {x: 0.09, y: 0.09, z: 1}
   m_Children:
   - {fileID: 4158144365310372}
   - {fileID: 4661109204068866}
@@ -296,18 +296,17 @@ MonoBehaviour:
   MaskWeapon:
     serializedVersion: 2
     m_Bits: 512
+  dummy: {fileID: 1404558262901646, guid: f81dde857e321d04188ee7312f5b40c0, type: 2}
   TopTransform: {fileID: 4203128891602496}
   BottomTransform: {fileID: 4691278258591546}
   PosSlot: {fileID: 4426821295544292}
   multiplier: 0
-  Equip: {fileID: 0}
   Healt: 3
   ForceThrowUp: 3.59
   ForceThrowRight: 3.57
   ThrowTime: 1.17
   GrabRange: 0.4
-  fallmultiplier: 4
-  lowjumpmultiplier: 3
+  lowjumpmultiplier: 2
   VelocidadMovimiento: 60
   MovimientoHorizontal: 0
 --- !u!114 &114802665629843006
@@ -321,7 +320,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72b10b3fd6f8848418eabcdcbfe41018, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_JumpForce: 600
+  m_JumpForce: 680
   m_CrouchSpeed: 0.36
   m_MovementSmoothing: 0.05
   m_AirControl: 1

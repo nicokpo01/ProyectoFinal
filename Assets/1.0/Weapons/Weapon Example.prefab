@@ -111,13 +111,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ac4801ab4270b544b024324f0486364, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  proyectileSpreadMax: 0
-  lifetime: 0.02
+  control: {fileID: 0}
+  push: 50
+  MaxAmmo: 0
+  Ammo: 0
+  multiplier: 0
   Range: 10
-  firePoint: {fileID: 4711989511979912}
   damage: 5
+  TiempoInicio: 0
+  proyectileSpreadMax: 0
+  timeforDespawn: 30
+  lifetime: 0.02
+  multiplierLine: 1
+  firePoint: {fileID: 4711989511979912}
+  weaponslot: {fileID: 0}
   impactEffect: {fileID: 100000, guid: f06e78284f831ae469c74624ab5d513b, type: 2}
   lineRenderer: {fileID: 120527833557215102}
+  linerendererLength: 0
+  linerendererLengthEnd: 0
+  wantlineeffect: 0
+  IsGrabbed: 0
+  onStand: 0
+  objectTag: Player 1
 --- !u!120 &120527833557215102
 LineRenderer:
   m_ObjectHideFlags: 1

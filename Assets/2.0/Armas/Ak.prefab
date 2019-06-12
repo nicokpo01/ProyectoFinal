@@ -24,6 +24,8 @@ GameObject:
   - component: {fileID: 50427400522276236}
   - component: {fileID: 61940160583370748}
   - component: {fileID: 61763659088655916}
+  - component: {fileID: 61627583377594846}
+  - component: {fileID: 61401616829854042}
   m_Layer: 9
   m_Name: Ak
   m_TagString: Untagged
@@ -94,9 +96,9 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1232907048943350}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -4.420637, y: 5.883347, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -41.872, y: 12.305, z: 0}
+  m_LocalScale: {x: 0.23754002, y: 0.23754002, z: 0.23754002}
   m_Children:
   - {fileID: 4102308045782632}
   - {fileID: 4223607139169600}
@@ -117,12 +119,62 @@ Rigidbody2D:
   m_Mass: 10
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!61 &61401616829854042
+BoxCollider2D:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1232907048943350}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -3.4552288, y: 0.0000014305115}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 10.05, y: 1.99}
+    newSize: {x: 2.56, y: 1.96}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 2.8703117, y: 1.0476656}
+  m_EdgeRadius: 0
+--- !u!61 &61627583377594846
+BoxCollider2D:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1232907048943350}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 1.4022713, y: -0.41507536}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 10.05, y: 1.99}
+    newSize: {x: 2.56, y: 1.96}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.46962738, y: 1.1598493}
+  m_EdgeRadius: 0
 --- !u!61 &61763659088655916
 BoxCollider2D:
   m_ObjectHideFlags: 1
@@ -135,18 +187,18 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.103052795, y: -0.15850884}
+  m_Offset: {x: -1.0584373, y: -0.28178358}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 2.56, y: 1.96}
+    oldSize: {x: 10.05, y: 1.99}
     newSize: {x: 2.56, y: 1.96}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.7402191, y: 0.296166}
+  m_Size: {x: 2.1167831, y: 0.83035755}
   m_EdgeRadius: 0
 --- !u!61 &61940160583370748
 BoxCollider2D:
@@ -160,18 +212,18 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.037124157, y: 0.08473447}
+  m_Offset: {x: 1.5346279, y: 0.4751053}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 2.56, y: 1.96}
+    oldSize: {x: 10.05, y: 1.99}
     newSize: {x: 2.56, y: 1.96}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.792495, y: 0.3546573}
+  m_Size: {x: 7.237133, y: 0.6833916}
   m_EdgeRadius: 0
 --- !u!114 &114292559915714346
 MonoBehaviour:
@@ -185,22 +237,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   control: {fileID: 0}
+  push: 50
   MaxAmmo: 30
-  Ammo: 0
+  Ammo: 30
   multiplier: 0
   Range: 9
   damage: 5
   TiempoInicio: 0
   proyectileSpreadMax: 0.99
   timeforDespawn: 15
-  lifetime: 0.01
+  lifetime: 0
   multiplierLine: 1
   firePoint: {fileID: 4102308045782632}
   weaponslot: {fileID: 0}
   impactEffect: {fileID: 100000, guid: f06e78284f831ae469c74624ab5d513b, type: 2}
   lineRenderer: {fileID: 120468360170530370}
-  linerendererLength: 0
-  linerendererLengthEnd: 0
+  linerendererLength: 0.03224335
+  linerendererLengthEnd: 0.03224335
   wantlineeffect: 0
   IsGrabbed: 0
   onStand: 1
@@ -332,7 +385,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: cebfe2b58b0a2d54b9e6c8c6e0587959, type: 3}
+  m_Sprite: {fileID: 21300010, guid: 5ec7b2cf46299e24f83a1453c13ae34b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

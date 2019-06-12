@@ -185,6 +185,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   control: {fileID: 0}
+  push: 50
   MaxAmmo: 1
   Ammo: 0
   multiplier: 0

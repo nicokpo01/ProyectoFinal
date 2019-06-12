@@ -185,6 +185,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   control: {fileID: 0}
+  push: 50
   MaxAmmo: 30
   Ammo: 0
   multiplier: 0
@@ -192,13 +193,19 @@ MonoBehaviour:
   damage: 5
   TiempoInicio: 0
   proyectileSpreadMax: 0.91
+  timeforDespawn: 30
   lifetime: 0.02
+  multiplierLine: 1
   firePoint: {fileID: 4086995650752104}
   weaponslot: {fileID: 0}
   impactEffect: {fileID: 100000, guid: f06e78284f831ae469c74624ab5d513b, type: 2}
   lineRenderer: {fileID: 120045599138845716}
+  linerendererLength: 0
+  linerendererLengthEnd: 0
+  wantlineeffect: 0
   IsGrabbed: 0
   onStand: 1
+  objectTag: Player 1
 --- !u!120 &120045599138845716
 LineRenderer:
   m_ObjectHideFlags: 1

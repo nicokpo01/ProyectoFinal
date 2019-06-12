@@ -5,6 +5,8 @@ using UnityEngine;
 public class Weapon : MonoBehaviour
 {
     public CharacterController2D control;
+
+    public int push = 50;
     public int MaxAmmo;
     public int Ammo;
     public int multiplier;
@@ -204,7 +206,8 @@ public class Weapon : MonoBehaviour
                 Movement enemy = hitInfo.transform.GetComponent<Movement>();
                 if (enemy != null)
                 {
-                    enemy.TakeDamage();
+                    GameObject dummy = enemy.TakeDamage(true);
+                    dummy.GetComponent<Rigidbody2D>().AddForce(new Vector2(push * multiplier ,  0));
                 }
 
                 Instantiate(impactEffect, hitInfo.point, Quaternion.identity);

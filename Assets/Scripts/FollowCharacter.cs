@@ -7,13 +7,17 @@ public class FollowCharacter : MonoBehaviour
     public Transform blankpoint;
     public float limit_between = 2f;
     public float limit_Max = 20f;
+    public float limit_MaxY = 20f;
 
     public float cutoff = 0;
+    public float cutoffY = 0;
+
     public float modifierZoom = 1;
     public float ExtraModifierZoom = 1.5f;
 
     public float z;
 
+    private Vector3 last_position;
     private float last;
     private float distance;
 
@@ -39,6 +43,7 @@ public class FollowCharacter : MonoBehaviour
     private void FixedUpdate()
     {        
         last = Cam.orthographicSize;
+        last_position = Cam.transform.position;
     }
     // Update is called once per frame
     void LateUpdate()
@@ -85,39 +90,60 @@ public class FollowCharacter : MonoBehaviour
             Target_2 = x2.transform;
         }
 
+        float extra = Time.deltaTime * modifierZoom;
+        float Moreextra = extra * ExtraModifierZoom;
+
         final = new Vector3((Target.position.x + Target_2.position.x) * 0.5f, (Target.position.y + Target_2.position.y) * 0.5f, z);
-        Cam.transform.position = final;
+        Vector3 send = final;
+        send.x = Mathf.Lerp(last_position.x, final.x, extra);
+        send.y = Mathf.Lerp(last_position.y, final.y, extra);
+        Cam.transform.position = send;
+        //Cam.transform.position = Mathf.Lerp(last, last_position, Moreextra);
+
 
         Vector2 Xa = new Vector2(Target.position.x, 1);
         Vector2 Xb = new Vector2(Target_2.position.x, 1);
         distance = Vector2.Distance(Xa, Xb);
-        float extra = Time.deltaTime * modifierZoom;
-        float Moreextra = extra * ExtraModifierZoom;
 
-        if(!allDead)
+        Vector2 Xa2 = new Vector2(1, Target.position.y);
+        Vector2 Xb2 = new Vector2(1,Target_2.position.y);
+        float distanceY = Vector2.Distance(Xa2, Xb2);        
+
+        float off = cutoff;
+        float limit = limit_Max;
+
+        if (!allDead)
         {
+            if (distanceY > distance)
+            {
+                distance = distanceY;
+                off = cutoffY;
+                limit = limit_MaxY;
+            }
+
             if (distance < limit_between)
             {
                 //Cam.orthographicSize = limit_between;
-                Cam.orthographicSize = Mathf.Lerp(last, limit_between + cutoff, extra);
+                Cam.orthographicSize = Mathf.Lerp(last, limit_between + off, extra);
             }
             else
             {
-                if (distance > limit_Max)
+                if (distance > limit)
                 {
-                    Cam.orthographicSize = Mathf.Lerp(last, limit_Max + cutoff, extra);
+                    Cam.orthographicSize = Mathf.Lerp(last, limit + off, extra);
                     //Cam.orthographicSize = limit_Max;
                 }
                 else
                 {
                     //Cam.orthographicSize = Mathf.Lerp(last, distance + CutOff, extra);
-                    Cam.orthographicSize = Mathf.Lerp(last, distance + cutoff, extra);
+                    Cam.orthographicSize = Mathf.Lerp(last, distance + off, extra);
                 }
             }
         }
         else
         {
-            Cam.orthographicSize = Mathf.Lerp(last, limit_Max + cutoff, Moreextra);
+            distance = Mathf.Lerp(last, distance + off, Moreextra);
+            Cam.orthographicSize = Mathf.Lerp(last, limit + off, Moreextra);
             allDead = true;
         }
     }
